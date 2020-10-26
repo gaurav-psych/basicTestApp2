@@ -96,3 +96,29 @@ export const BottomTab = () => {
     </View>
   );
 };
+
+export const TextInputMobi = props => {
+  return (
+    <View>
+      <Text style={{marginBottom: 5}}>{props.title}</Text>
+
+      <TextInput
+        placeholder={props.title}
+        style={{
+          borderWidth: 1,
+          borderRadius: 5,
+          textAlign: 'center',
+          borderColor: '#F1F1F1',
+        }}
+      />
+    </View>
+  );
+};
+
+export const VioletButton = props => {
+  return (
+    <Pressable style={secondScreenStyles.keepLBut}>
+      <Text style={secondScreenStyles.keepLSt}>{props.title}</Text>
+    </Pressable>
+  );
+};

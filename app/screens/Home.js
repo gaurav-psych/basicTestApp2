@@ -8,62 +8,36 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import {staticData} from '../assets/staticJson/testData';
+import {TextInputMobi, VioletButton} from '../components/globalComponents';
 import {homeScreenStyle} from '../style/homeScreenStyle';
-import {saveIndex} from '../redux/actions/userAction';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
-class HomeScreen extends React.Component {
-  onSlotPress = index => {
-    this.props.saveIndex(index);
-    this.props.navigation.navigate('FirstScreen');
-  };
-
-  //display each user
-  displayUser = (item, index, props) => {
-    return (
-      <Pressable
-        style={
-          item.isBooked ? homeScreenStyle.cardBooked : homeScreenStyle.card
-        }
-        onPress={() => this.onSlotPress(index)}>
-        <View>
-          <Text style={homeScreenStyle.nameT}>{item.slot}</Text>
-          {/* <Text style={homeScreenStyle.nameSecon}>{item.tz}</Text> */}
-        </View>
+const Card = () => {
+  return (
+    <View style={homeScreenStyle.cardStyle}>
+      <View style={homeScreenStyle.headST}>
         <Image
-          source={require('../assets/images/account.png')}
-          style={homeScreenStyle.img}
-          resizeMode="contain"
+          source={{uri: 'https://source.unsplash.com/random'}}
+          style={homeScreenStyle.imgSt}
         />
-      </Pressable>
-    );
-  };
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <FlatList
-          data={this.props.userReducer.timeSlotArray}
-          renderItem={({item, index}) => this.displayUser(item, index)}
-        />
+        <Text style={homeScreenStyle.heaText}>goDutch .</Text>
       </View>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  const {userReducer} = state;
-  return {userReducer};
+      <View style={{marginHorizontal: 10, marginVertical: 65}}>
+        <TextInputMobi title="Mobile Number" />
+      </View>
+      <View
+        style={{width: '65%', justifyContent: 'center', alignSelf: 'center'}}>
+        <VioletButton title="Continue" />
+      </View>
+    </View>
+  );
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      saveIndex,
-    },
-    dispatch,
+const HomeScreen = props => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center'}}>
+      <Card props={props} />
+    </View>
   );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default HomeScreen;

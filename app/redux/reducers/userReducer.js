@@ -53,6 +53,34 @@ const INITIAL_STATE = {
     },
   ],
   userSelectedIndex: '',
+  dummyData: [
+    {
+      url: 'https://source.unsplash.com/random',
+      name: 'iniesta',
+      location: 'india',
+    },
+    {
+      url: 'https://source.unsplash.com/random',
+      name: 'messi',
+      location: 'afghanistan',
+    },
+    {
+      url: 'https://source.unsplash.com/random',
+      name: 'arteta',
+      location: 'china',
+    },
+    {
+      url: 'https://source.unsplash.com/random',
+      name: 'ozil',
+      location: 'russia',
+    },
+    {
+      url: 'https://source.unsplash.com/random',
+      name: 'wuhan',
+      location: 'germany',
+    },
+  ],
+  textForSearch: '',
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -61,6 +89,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
       return {...state, userSelectedIndex: action.payload};
     case types.SAVE_USER_ARR:
       return {...state, timeSlotArray: action.payload};
+    case types.SAVE_TEXT_SEAR:
+      return {...state, textForSearch: action.payload};
 
     default:
       return state;

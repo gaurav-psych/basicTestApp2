@@ -47,4 +47,29 @@ export const homeScreenStyle = StyleSheet.create({
     width: 30,
     marginRight: 10,
   },
+
+  cardStyle: {
+    marginHorizontal: 10,
+    backgroundColor: '#fff',
+    elevation: 2,
+    borderRadius: 5,
+
+    // alignSelf: 'center',
+  },
+  headST: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  imgSt: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  heaText: {
+    fontSize: 35,
+    fontWeight: 'bold',
+  },
 });
