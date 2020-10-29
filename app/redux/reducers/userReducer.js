@@ -81,6 +81,8 @@ const INITIAL_STATE = {
     },
   ],
   textForSearch: '',
+  userBookingData: [],
+  eachUserObject: {},
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -88,9 +90,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
     case types.SAVE_INDEX:
       return {...state, userSelectedIndex: action.payload};
     case types.SAVE_USER_ARR:
-      return {...state, timeSlotArray: action.payload};
+      return {...state, userBookingData: action.payload};
     case types.SAVE_TEXT_SEAR:
       return {...state, textForSearch: action.payload};
+    case types.SAVE_EACH_OBJ:
+      return {...state, eachUserObject: action.payload};
 
     default:
       return state;

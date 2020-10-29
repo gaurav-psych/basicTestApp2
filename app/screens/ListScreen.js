@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {Text, View, FlatList, TextInput, Pressable} from 'react-native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {saveEachUserObj} from '../redux/actions/userAction';
 
-export default class ListScreen extends Component {
+class ListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,9 +13,28 @@ export default class ListScreen extends Component {
     };
   }
 
+  componentDidMount() {
+    this._unsubscribe091 = this.props.navigation.addListener('focus', () => {
+      this.setState({
+        todoList: this.props.userReducer.userBookingData,
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe091();
+  }
+
   addText = text => {
+    // this.setState({
+    //   todoData: text,
+    // });
+
+    let newUserArr = this.props.userReducer.userBookingData.filter(data =>
+      data.name.includes(text),
+    );
     this.setState({
-      todoData: text,
+      todoList: newUserArr,
     });
   };
 
@@ -24,10 +46,15 @@ export default class ListScreen extends Component {
     });
   };
 
+  onEachTodoPress = data => {
+    this.props.saveEachUserObj(data);
+    this.props.navigation.navigate('ExtraStack');
+  };
+
   renderEachTodo = (data, index) => {
     // console.log(data, ' each todo data');
     return (
-      <View
+      <Pressable
         style={{
           flexDirection: 'row',
           borderRadius: 5,
@@ -36,14 +63,16 @@ export default class ListScreen extends Component {
           justifyContent: 'space-between',
           marginVertical: 10,
         }}
-        key={data}>
-        <Text style={{marginLeft: 10, marginVertical: 5}}>{data}</Text>
-        <Pressable onPress={() => this.deleteThatTodo(data, index)}>
+        key={data}
+        onPress={() => this.onEachTodoPress(data)}>
+        <Text style={{marginLeft: 10, marginVertical: 5}}>{data.name}</Text>
+        <Text style={{marginLeft: 10, marginVertical: 5}}>{data.age}</Text>
+        {/* <Pressable onPress={() => this.deleteThatTodo(data, index)}>
           <Text style={{color: 'red', marginRight: 10, marginVertical: 5}}>
             Delete
           </Text>
-        </Pressable>
-      </View>
+        </Pressable> */}
+      </Pressable>
     );
   };
 
@@ -63,12 +92,12 @@ export default class ListScreen extends Component {
       <View style={{flex: 1, marginHorizontal: 10, marginVertical: 10}}>
         <View style={{flexDirection: 'row'}}>
           <TextInput
-            placeholder="add todos"
+            placeholder="Search users"
             onChangeText={this.addText}
-            style={{width: '50%'}}
-            value={this.state.todoData}
+            style={{width: '50%', borderColor: '#ccc', borderWidth: 0.5}}
+            // value={this.state.todoData}
           />
-          <Pressable
+          {/* <Pressable
             style={{
               backgroundColor: 'blue',
               borderRadius: 5,
@@ -76,18 +105,33 @@ export default class ListScreen extends Component {
               justifyContent: 'center',
             }}
             onPress={this.addEachTodo}>
-            <Text style={{color: '#fff', marginHorizontal: 10}}>Add</Text>
-          </Pressable>
+            <Text style={{color: '#fff', marginHorizontal: 10}}>Search</Text>
+          </Pressable> */}
         </View>
-        <Text style={{fontSize: 18}}>Todo List</Text>
-        <Text style={{fontSize: 12, alignSelf: 'flex-end'}}>
+        <Text style={{fontSize: 18}}>User List</Text>
+        {/* <Text style={{fontSize: 12, alignSelf: 'flex-end'}}>
           {todoSizeStatement}
-        </Text>
+        </Text> */}
         <FlatList
-          data={this.state.todoList}
+          data={todoList}
           renderItem={({item, index}) => this.renderEachTodo(item, index)}
         />
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  const {userReducer} = state;
+  return {userReducer};
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      saveEachUserObj,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListScreen);
